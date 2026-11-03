@@ -14,6 +14,9 @@ O nome da aplicação presta tributo direto ao polímata chinês **Shen Kua** (�
 
 Inspirado por este rigor, o **Shen Kua Compass** utiliza os sensores espaciais modernos para aplicar correções e compensações trigonométricas avançadas em tempo real.
 
+
+![Capa Shenkua](shenkuacover.png)
+
 ---
 
 ## Chapter 3: Arquitetura Técnica e Sensores Nativos
