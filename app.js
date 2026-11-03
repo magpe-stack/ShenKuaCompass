@@ -762,12 +762,16 @@
     initMenu();
     initPWA();
 
-    state.declination = Number(store.get(KEYS.decl)) || 0;
+      state.declination = parseDecl(store.get(KEYS.decl));
     el.decl.value = String(state.declination);
-    el.decl.addEventListener('input', () => {
-      const v = clamp(parseFloat(el.decl.value) || 0, -90, 90);
-      state.declination = v;
-      store.set(KEYS.decl, String(v));
+    el.decl.addEventListener('input', () => setDecl(parseDecl(el.decl.value), false));
+    el.decl.addEventListener('blur', () => setDecl(parseDecl(el.decl.value), true));
+    $('#decl-sign').addEventListener('click', () => {
+      let t = el.decl.value.trim().replace(/[−–—]/g, '-');
+      t = t.startsWith('-') ? t.slice(1) : '-' + t.replace(/^\+/, '');
+      el.decl.value = t || '0';
+      setDecl(parseDecl(el.decl.value), false);
+      el.decl.focus();
     });
 
     const saved = Number(store.get(KEYS.calib));
