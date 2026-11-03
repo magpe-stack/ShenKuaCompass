@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Shen Kua Compass</title>
+  <meta name="description" content="Bússola digital com compensação de inclinação, pitch, roll, calibração e exportação de leituras. Funciona offline.">
+  <meta name="theme-color" content="#DDC592">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="splash" aria-hidden="true">
+    <img src="logo.svg" alt="">
+  </div>
+
+  <header class="app-header">
+    <a class="brand" href="./" aria-label="Shen Kua Compass">
+      <img src="favicon.svg" width="40" height="40" alt="">
+      <h1>Shen Kua Compass</h1>
+    </a>
+  </header>
+
+  <nav class="toolbar" aria-label="Ações principais">
+    <div class="menu-wrap">
+      <button id="btn-file" class="btn btn-ghost" aria-haspopup="menu" aria-expanded="false" aria-controls="file-menu">Arquivo ▾</button>
+      <div id="file-menu" class="menu" role="menu" hidden>
+        <button role="menuitem" data-action="new">Novo arquivo / Limpar leituras</button>
+        <button role="menuitem" data-action="export-json">Exportar JSON</button>
+        <button role="menuitem" data-action="export-md">Exportar Markdown (.md)</button>
+        <button role="menuitem" data-action="export-docx">Exportar Word (.docx)</button>
+        <button role="menuitem" data-action="import">Importar JSON…</button>
+        <button role="menuitem" data-action="print">Imprimir relatório</button>
+      </div>
+    </div>
+
+    <div class="toolbar-right">
+      <button id="btn-install" class="btn btn-ghost" hidden>Instalar</button>
+      <button id="btn-theme" class="icon-btn" aria-label="Alternar tema claro e escuro">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg>
+      </button>
+      <button id="btn-help" class="icon-btn" aria-label="Ajuda">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1.2" fill="currentColor"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/SEU-USUARIO/shen-kua-compass" target="_blank" rel="noopener noreferrer" aria-label="Repositório do projeto no GitHub">
+        <svg viewBox="0 0 16 16" width="22" height="22" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="card compass-card" aria-labelledby="hdg-title">
+      <h2 id="hdg-title" class="sr-only">Bússola</h2>
+
+      <div class="compass" role="img" aria-label="Mostrador da bússola">
+        <div class="lubber" aria-hidden="true"></div>
+        <svg id="dial" class="dial" viewBox="-150 -150 300 300" aria-hidden="true">
+          <circle r="146" class="dial-ring"/>
+          <circle r="134" class="dial-face"/>
+          <g id="ticks"></g>
+          <g class="needle-mark">
+            <polygon points="0,-92 11,0 -11,0" class="needle-n"/>
+            <polygon points="0,92 11,0 -11,0" class="needle-s"/>
+            <circle r="7" class="needle-pin"/>
+          </g>
+        </svg>
+        <div class="readout-center" aria-live="off">
+          <span id="hdg-value" class="hdg-value">---°</span>
+          <span id="hdg-card" class="hdg-card">--</span>
+        </div>
+      </div>
+      <p id="hdg-label" class="muted center">Norte magnético · toque em “Ativar sensores”</p>
+
+      <div class="actions">
+        <button id="btn-start" class="btn btn-primary">Ativar sensores</button>
+        <button id="btn-calib" class="btn" disabled>Calibrar</button>
+        <button id="btn-record" class="btn" disabled>Registrar leitura</button>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <h2>Inclinação</h2>
+        <div class="tilt">
+          <div class="level" aria-hidden="true">
+            <span class="level-h"></span><span class="level-v"></span>
+            <span id="bubble" class="bubble"></span>
+          </div>
+          <dl class="values">
+            <div><dt>Pitch</dt><dd id="pitch">--°</dd></div>
+            <div><dt>Roll</dt><dd id="roll">--°</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Qualidade do sinal</h2>
+        <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="stab-meter" aria-label="Estabilidade">
+          <span id="stab-bar"></span>
+        </div>
+        <dl class="values compact">
+          <div><dt>Estabilidade</dt><dd id="stab-text">--</dd></div>
+          <div><dt>Precisão</dt><dd id="acc-text">--</dd></div>
+          <div><dt>Campo magnético</dt><dd id="field-text">--</dd></div>
+          <div><dt>Calibração</dt><dd id="calib-text">Nunca</dd></div>
+        </dl>
+        <p id="signal-warning" class="warning" role="status" hidden></p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="decl-title">
+      <h2 id="decl-title">Declinação magnética</h2>
+      <p>No século XI, o polímata chinês <strong>Shen Kuo</strong> (沈括) registrou que a agulha magnética não aponta exatamente para o norte geográfico. Essa diferença é a <em>declinação magnética</em>. Ele também descreveu a agulha suspensa por um fio de seda, antecipando o princípio das bússolas modernas.</p>
+      <label class="field" for="decl-input">
+        Declinação do seu local (graus, leste positivo)
+        <input id="decl-input" type="number" inputmode="decimal" step="0.1" min="-90" max="90" value="0">
+      </label>
+      <p class="muted small">Com valor diferente de zero, o azimute exibido passa a ser relativo ao Norte verdadeiro. Consulte o valor atual no NOAA ou no Observatório Nacional.</p>
+    </section>
+
+    <section class="card" aria-labelledby="hist-title">
+      <div class="row-between">
+        <h2 id="hist-title">Leituras registradas <span id="count" class="badge">0</span></h2>
+      </div>
+      <p id="history-empty" class="muted">Nenhuma leitura ainda. Ative os sensores e toque em “Registrar leitura”.</p>
+      <div class="table-wrap">
+        <table id="history-table" hidden>
+          <thead>
+            <tr><th>#</th><th>Hora</th><th>Azimute</th><th>Pitch</th><th>Roll</th><th>Local</th></tr>
+          </thead>
+          <tbody id="history-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>Shen Kua Compass · homenagem a Shen Kuo (1031–1095)</small>
+  </footer>
+
+  <dialog id="help-dialog" aria-labelledby="help-title">
+    <form method="dialog">
+      <h2 id="help-title">Ajuda</h2>
+      <ol>
+        <li>Toque em <strong>Ativar sensores</strong> e conceda a permissão de movimento.</li>
+        <li>Segure o celular na horizontal ou levemente inclinado. A compensação de inclinação mantém o azimute correto.</li>
+        <li>Use <strong>Calibrar</strong> e desenhe um “8” no ar até a barra completar.</li>
+        <li>Afaste-se de ímãs, capas magnéticas, metais e carros. Veja o aviso de interferência.</li>
+        <li>Toque em <strong>Registrar leitura</strong> para salvar azimute, pitch, roll, hora e localização (se permitida).</li>
+        <li>No menu <strong>Arquivo</strong> você limpa, exporta (JSON, MD, DOCX), importa ou imprime.</li>
+      </ol>
+      <p><a href="https://github.com/SEU-USUARIO/shen-kua-compass/blob/main/README.md" target="_blank" rel="noopener noreferrer">Abrir README.md no GitHub</a></p>
+      <button class="btn btn-primary" value="close">Fechar</button>
+    </form>
+  </dialog>
+
+  <dialog id="calib-dialog" aria-labelledby="calib-title">
+    <form method="dialog">
+      <h2 id="calib-title">Calibração</h2>
+      <p>Mova o celular desenhando um <strong>8</strong> no ar, girando-o em todas as direções.</p>
+      <svg viewBox="-110 -60 220 120" class="figure8" aria-hidden="true">
+        <path id="f8" d="M0,0 C40,-50 80,-50 80,0 C80,50 40,50 0,0 C-40,-50 -80,-50 -80,0 C-80,50 -40,50 0,0" fill="none" class="f8-path"/>
+        <circle r="7" class="f8-dot"><animateMotion dur="3s" repeatCount="indefinite"><mpath href="#f8"/></animateMotion></circle>
+      </svg>
+      <progress id="calib-progress" max="100" value="0"></progress>
+      <p id="calib-status" class="muted center" role="status">Aguardando movimento…</p>
+      <button class="btn" value="cancel">Cancelar</button>
+    </form>
+  </dialog>
+
+  <input id="file-input" type="file" accept="application/json,.json" hidden>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <section id="print-report" aria-hidden="true"></section>
+
+  <script src="app.js"></script>
+</body>
+</html>
