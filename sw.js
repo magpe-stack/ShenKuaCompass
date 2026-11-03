@@ -1,4 +1,4 @@
-const CACHE = 'shen-kua-v2';
+const CACHE = 'shen-kua-v4';
 const ASSETS = [
   './',
   'index.html',
