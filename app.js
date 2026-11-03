@@ -754,6 +754,19 @@
   }
 
   /* ---------- Inicialização ---------- */
+
+  /* ---------- Declinação (aceita vírgula, ponto e sinal) ---------- */
+  function parseDecl(str) {
+    const n = parseFloat(String(str == null ? '' : str).replace(/[−–—]/g, '-').replace(',', '.').trim());
+    return Number.isFinite(n) ? clamp(n, -90, 90) : 0;
+  }
+
+  function setDecl(v, rewrite) {
+    state.declination = v;
+    store.set(KEYS.decl, String(v));
+    if (rewrite) el.decl.value = String(v);
+  }
+  
   function init() {
     initTheme();
     buildDial();
