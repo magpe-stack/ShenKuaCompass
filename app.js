@@ -350,8 +350,8 @@
       const shown = (mag + state.declination + 360) % 360;
       el.dial.style.transform = `rotate(${-shown}deg)`;
 
-      const bx = clamp(-state.roll, -45, 45) / 45 * 35;
-      const by = clamp(-state.pitch, -45, 45) / 45 * 35;
+      const bx = clamp(-state.roll, -45, 45) / 45 * 20;
+      const by = clamp(-state.pitch, -45, 45) / 45 * 20;
       el.bubble.style.transform = `translate(${bx}px, ${by}px)`;
 
       if (now - lastText > 100) {
