@@ -7,8 +7,8 @@ A aplicação opera inteiramente no lado do cliente (sem dependências de servid
 
 ---
 
-## Capítulo 2: Homenagem Histórica a Shen Kuo (1031–1095)
-O nome da aplicação presta tributo direto ao polímata chinês **Shen Kuo** (沈括), figura central da ciência durante a Dinastia Song[cite: 11]. Na sua obra capital, *Mengxi Bitan* (*Ensaios do Pool de Sonhos*), Shen Kuo revolucionou a história da navegação e da física através de duas contribuições imperdíveis:
+## Capítulo 2: Homenagem Histórica a Shen Kua (1031–1095)
+O nome da aplicação presta tributo direto ao polímata chinês **Shen Kua** (沈括), figura central da ciência durante a Dinastia Song. Na sua obra capital, *Mengxi Bitan* (*Ensaios do Pool de Sonhos*), Shen Kua revolucionou a história da navegação e da física através de duas contribuições imperdíveis:
 1. **A Suspensão por Fio de Seda:** Foi o pioneiro a suspender uma agulha magnetizada por um fio único de seda (fixada com cera), eliminando o atrito mecânico de superfícies estáticas ou pivôs rudimentares, permitindo que a agulha oscilasse livremente para encontrar o norte.
 2. **A Declinação Magnética:** Identificou pela primeira vez na história que a agulha magnetizada não apontava estritamente para o polo geográfico verdadeiro, mas apresentava uma divergência angular constante.
 
