@@ -5,11 +5,6 @@ O **Shen Kua Compass** é uma Aplicação Web Progressiva (PWA) de altíssima pr
 
 A aplicação opera inteiramente no lado do cliente (sem dependências de servidores externos para o cálculo ou processamento de orientação), garantindo total privacidade de dados, suporte a funcionamento 100% offline via *Service Worker* e persistência segura utilizando o armazenamento local do navegador (`localStorage`).
 
-
-![Capa Shenkua](shenkuacover.png)
-
-
-
 ---
 
 ## Capítulo 2: Homenagem Histórica a Shen Kua (1031–1095)
