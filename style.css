@@ -251,7 +251,33 @@ main > * { min-width: 0; max-width: 100%; }
   font-variant-numeric: tabular-nums;
 }
 .decl-row .unit { font-weight: 700; font-size: 1.1rem; flex: none; }
-details summary { min-height: 40px; display: flex; align-items: center; cursor: pointer; font-weight: 600; font-size: .9rem; }
+
+/* Aba "Sobre Shen Kua e a declinação" com indicador */
+details summary {
+  min-height: 44px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 0 14px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600; font-size: .9rem;
+  list-style: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::after {
+  content: "";
+  flex: none;
+  width: 9px; height: 9px;
+  margin-top: -4px;
+  border-right: 3px solid var(--text);
+  border-bottom: 3px solid var(--text);
+  transform: rotate(45deg);
+  transition: transform .2s ease;
+}
+details[open] summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+details[open] summary::after { transform: rotate(-135deg); margin-top: 4px; }
+details > p:first-of-type { margin-top: 10px; }
 details p { font-size: .9rem; }
 
 .row-between { display: flex; align-items: center; justify-content: space-between; }
